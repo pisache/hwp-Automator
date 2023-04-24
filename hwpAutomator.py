@@ -1,24 +1,38 @@
+import win32com.client as win32
 import pandas as pd
 import shutil
-import win32com.client as win32
 import random
+import re
 
 # user input
 #xlFile = input("엑셀파일명을 입력 해주세요: \n")
 #xlSheet = input("\n시트이름을 입력 해주세요: \n")
-maxNum = int(input("\n최대 문장 수를 입력 해주세요: \n"))
+#maxNum = int(input("\n최대 문장 수를 입력 해주세요: \n"))
 
 xlFile = "source.xlsx"
 xlSheet = "sheet1"
-#maxNum = 757
+maxNum = 757
+
+'''
+    Select next word
+    Move selection left by 1 to remove space after selection
+    apply underline
+    cancel selection
+'''
+def underline():
+    hwp.HAction.Run("MoveSelNextWord")
+    hwp.HAction.Run("MoveSelLeft")
+    hwp.HAction.Run("CharShapeUnderline")
+    hwp.HAction.Run("Cancel")
+#end
 
 # Excel Extraction
 numList = []
 wordList = []
 sentenceList = []
-df = pd.read_excel(xlFile, xlSheet)
-words = pd.read_excel(xlFile, xlSheet, na_values=['NA'], usecols="A")
-senteces = pd.read_excel(xlFile, xlSheet, na_values=['NA'], usecols="B")
+df = pd.read_excel(xlFile, xlSheet, dtype=str)
+words = pd.read_excel(xlFile, xlSheet, na_values=['NA'], usecols="A", dtype=str)
+senteces = pd.read_excel(xlFile, xlSheet, na_values=['NA'], usecols="B", dtype=str)
 df2 = df
 
 
@@ -32,15 +46,13 @@ for i in range(100):
     numList.append(x)
 #end 
 
-print(numList)
-
 """ # Remove used words from excel and save it as new file
 for i in range(len(numList)):
     df2 = df2.drop([numList[i], numList[i]+1])
 #end
 """
 
-
+words = words.astype(str)
 for key, value in words.items():
     for i in range(len(numList)):
         wordList.append(value[numList[i]])
@@ -92,3 +104,21 @@ fieldList = [i for i in hwp.GetFieldList().split("\x02")]
 for field in fieldList:
     hwp.PutFieldText(f'{field}{{{{0}}}}', infor[0][field])
 hwp.MovePos(2)
+
+# set the cursor on the first sentece.
+hwp.InitScan(option=0x04, Range=0x0007)
+for i in range(4):
+    hwp.GetText()
+    hwp.MovePos(201)
+#end
+hwp.ReleaseScan()
+hwp.InitScan(Range=0x0002)
+id, scanString = hwp.GetText()
+
+print(scanString)
+print(wordList[0])
+for m in re.finditer(wordList[0], scanString):
+    position = m.start()
+hwp.MovePos(1, 2, position+10)
+underline()
+#end
