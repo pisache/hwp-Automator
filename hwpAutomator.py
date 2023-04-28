@@ -26,6 +26,8 @@ def underline():
     hwp.HAction.Run("Cancel")
 #end
 
+cursor = 0
+
 # Excel Extraction
 numList = []
 wordList = []
@@ -39,9 +41,9 @@ df2 = df
 # list of 20 non-repeating random numbers
 for i in range(100):
     x = random.randint(0, maxNum)
-    while (x % 2) == 1:
-        x = random.randint(0, maxNum)
     while x in numList:
+        x = random.randint(0, maxNum)
+    while (x % 2) != 0:
         x = random.randint(0, maxNum)
     numList.append(x)
 #end 
@@ -112,13 +114,53 @@ for i in range(4):
     hwp.MovePos(201)
 #end
 hwp.ReleaseScan()
-hwp.InitScan(Range=0x0002)
-id, scanString = hwp.GetText()
+hwp.HAction.Run("MoveSelLineEnd")
+hwp.InitScan(option=0x02, Range=0x00ff)
 
-print(scanString)
-print(wordList[0])
-for m in re.finditer(wordList[0], scanString):
-    position = m.start()
-hwp.MovePos(1, 2, position+10)
+hwp.HAction.Run("MoveLineBegin")
+hwp.HAction.Run("MoveDown")
+hwp.HAction.Run("MoveNextWord")
+hwp.HAction.Run("MoveSelLineEnd")
+
+""" hwp.InitScan(option=0x02, Range=0x00ff)
+id, scanString = hwp.GetText()
+for m in re.finditer(wordList[1], scanString):
+        position = m.start()
+hwp.HAction.Run("Cancel")
+hwp.MovePos(1, 3, position + 10)
 underline()
+print(scanString)
+print(wordList[1]) """
+
+# Loop to underline:
+for i in range(len(wordList)):
+    id, scanString = hwp.GetText()
+    print(scanString)
+    print(wordList[i])
+    for m in re.finditer(wordList[i], scanString):
+        position = m.start()
+    hwp.HAction.Run("Cancel")
+    hwp.MovePos(1, cursor+2, position + 10)
+    underline()
+
+    hwp.HAction.Run("MoveLineBegin")
+    if i % 5 == 4:
+        for j in range(4):
+            hwp.HAction.Run("MoveDown")
+        cursor += 3
+    #end
+    else:
+        hwp.HAction.Run("MoveDown")
+        cursor += 1
+    #end
+    hwp.HAction.Run("MoveNextWord")
+    hwp.ReleaseScan()
+    hwp.HAction.Run("MoveSelLineEnd")
+    if len(scanString) > 98:
+        hwp.HAction.Run("MoveSelDown")
+        cursor += 1
+    #end
+    hwp.InitScan(option=0x02, Range=0x00ff)
 #end
+
+hwp.HAction.Run("Cancel")
