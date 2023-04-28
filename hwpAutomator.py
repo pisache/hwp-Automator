@@ -4,14 +4,27 @@ import shutil
 import random
 import re
 
+print("hwp Automator에 오신것을 환영합니다.\n")
+print("python 3.8.10")
+print("knwon issues:\n")
+print("한글에서 한줄이 넘어가는 문장 사용시 그 다음 줄 단어 밑줄이 누락되는 현상\n")
+print("\n")
+print("주의사항: \n")
+print("test.hwp파일을 수정하지 말아주세요.\n")
+print("해당 폴더를 C드라이브 이외에 장소에 보관 시 작동하지 않습니다.\n")
+print("\n")
+
+print("제작자: 이호준\n")
+print("환경 테스팅: 송서영\n")
+
 # user input
 #xlFile = input("엑셀파일명을 입력 해주세요: \n")
 #xlSheet = input("\n시트이름을 입력 해주세요: \n")
-#maxNum = int(input("\n최대 문장 수를 입력 해주세요: \n"))
+maxNum = int(input("\n최대 문장 수를 입력 해주세요: \n"))
 
 xlFile = "source.xlsx"
 xlSheet = "sheet1"
-maxNum = 757
+#maxNum = 757
 
 '''
     Select next word
@@ -97,10 +110,10 @@ shutil.copyfile(r"./test.hwp",r"./test_out.hwp")
 hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")
 
 # Path for production
-#hwp.Open(r"C:\dist\test_out.hwp")
+hwp.Open(r"C:\dist\test_out.hwp")
 
 # Path for testing
-hwp.Open(r"D:\HoJun\dev\hwpAutomator\test_out.hwp")
+#hwp.Open(r"D:\HoJun\dev\hwpAutomator\test_out.hwp")
 fieldList = [i for i in hwp.GetFieldList().split("\x02")] 
 
 for field in fieldList:
@@ -135,31 +148,33 @@ print(wordList[1]) """
 # Loop to underline:
 for i in range(len(wordList)):
     id, scanString = hwp.GetText()
-    print(scanString)
+    print(i+1, scanString)
     print(wordList[i])
     for m in re.finditer(wordList[i], scanString):
         position = m.start()
     hwp.HAction.Run("Cancel")
     hwp.MovePos(1, cursor+2, position + 10)
     underline()
+    hwp.ReleaseScan()
 
     hwp.HAction.Run("MoveLineBegin")
     if i % 5 == 4:
-        for j in range(4):
-            hwp.HAction.Run("MoveDown")
-        cursor += 3
+        hwp.HAction.Run("MoveDown")
+        hwp.HAction.Run("MoveDown")
+        hwp.HAction.Run("MoveDown")
+        cursor += 2
     #end
     else:
         hwp.HAction.Run("MoveDown")
-        cursor += 1
     #end
+    cursor += 1
     hwp.HAction.Run("MoveNextWord")
-    hwp.ReleaseScan()
     hwp.HAction.Run("MoveSelLineEnd")
     if len(scanString) > 98:
         hwp.HAction.Run("MoveSelDown")
         cursor += 1
     #end
+    
     hwp.InitScan(option=0x02, Range=0x00ff)
 #end
 
