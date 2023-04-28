@@ -8,11 +8,11 @@ This is used to automate the process of tedious and time consuming task of test 
 ### Current Feature:
 Copy **test.hwp** file as a format and make a new hwp file called **test_out.hwp**
 Takes a 100 randomly selected non-repeating senteces from **source.xlsx** file and put those sentences into **test_out.hwp**. 
+Iteratively Underline corresponding keywords on **test_out.hwp**.
 
 ### Next:
-1. Underline corresponding keywords on **test_out.hwp**.
-2. Randomly assign answers and replaced words. i.e. make answer key on the back of the test paper.
-3. Make new file __new_source.xlsx__ that does not contain used sentences.
+1. Randomly assign answers and replaced words. i.e. make answer key on the back of the test paper.
+2. Make new file __new_source.xlsx__ that does not contain used sentences.
 
 ### Why such inefficient codes?
 There are two answer for this. 
