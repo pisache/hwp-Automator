@@ -13,9 +13,3 @@ Iteratively Underline corresponding keywords on **test_out.hwp**.
 ### Next:
 1. Randomly assign answers and replaced words. i.e. make answer key on the back of the test paper.
 2. Make new file __new_source.xlsx__ that does not contain used sentences.
-
-### Why such inefficient codes?
-There are two answer for this. 
-1. It's my first time using HwpObject and some efficient algorithm I wanted to use did not work.
-2. I was in very hurry because the program needed to be used right away to save time. I could not watch my mother and sister coming home at 3 in the morning after making test papers. 
-
