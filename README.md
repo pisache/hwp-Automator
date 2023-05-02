@@ -12,4 +12,4 @@ Iteratively Underline corresponding keywords on **test_out.hwp**.
 
 ### Next:
 1. Randomly assign answers and replaced words. i.e. make answer key on the back of the test paper.
-2. Make new file __new_source.xlsx__ that does not contain used sentences.
+2. Create GUI for the program.
