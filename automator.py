@@ -43,12 +43,14 @@ cursor = 0
 
 # Excel Extraction
 numList = []
+ansList = []
+ansWordList = []
 wordList = []
 sentenceList = []
 words = pd.read_excel(xlFile, xlSheet, na_values=['NA'], usecols="A", dtype=str)
 sentences = pd.read_excel(xlFile, xlSheet, na_values=['NA'], usecols="B", dtype=str)
 
-# list of 20 non-repeating random numbers
+# list of 100 non-repeating random numbers
 for i in range(100):
     x = random.randint(0, maxNum)
     while x in numList:
@@ -69,8 +71,26 @@ for key, value in sentences.items():
         sentenceList.append(value[numList[i]])
 #end
 
+
+# list of 20 random answers
+for i in range(20):
+    x = random.randint(1, 5)
+    ansList.append(x)
+#end
+
+for i in range(20):
+    keyWords = wordList[i*5 : i*5+5]
+    choiceIndex = ansList[i] - 1
+    chosenWord = keyWords[choiceIndex]
+    ansWordList.append(chosenWord)
+#end
+
 # hangeul modification
 infor = []
+
+for i in range(len(ansList)):
+    ansList[i] = str(ansList[i])
+#end
 
 dic = {
     'q1': sentenceList[0], 'q2': sentenceList[1], 'q3': sentenceList[2], 'q4': sentenceList[3], 'q5': sentenceList[4],
@@ -93,13 +113,18 @@ dic = {
     'q86': sentenceList[85], 'q87': sentenceList[86], 'q88': sentenceList[87], 'q89': sentenceList[88], 'q90': sentenceList[89],
     'q91': sentenceList[90], 'q92': sentenceList[91], 'q93': sentenceList[92], 'q94': sentenceList[93], 'q95': sentenceList[94],
     'q96': sentenceList[95], 'q97': sentenceList[96], 'q98': sentenceList[97], 'q99': sentenceList[98], 'q100': sentenceList[99],
-    'a1' : 1, 'a2' : 1, 'a3' : 1, 'a4' : 1, 'a5' : 1, 'a6' : 1, 'a7' : 1, 'a8' : 1, 'a9' : 1, 'a10' : 1, 
-    'a11' : 1, 'a12' : 1, 'a13' : 1, 'a14' : 1, 'a15' : 1, 'a16' : 1, 'a17' : 1, 'a18' : 1, 'a19' : 1, 'a20' : 1
+    'a1': ansList[0]+" - "+ansWordList[0], 'a2': ansList[1]+" - "+ansWordList[1], 'a3': ansList[2]+" - "+ansWordList[2], 
+    'a4': ansList[3]+" - "+ansWordList[3], 'a5': ansList[4]+" - "+ansWordList[4], 'a6': ansList[5]+" - "+ansWordList[5], 
+    'a7': ansList[6]+" - "+ansWordList[6], 'a8': ansList[7]+" - "+ansWordList[7], 'a9': ansList[8]+" - "+ansWordList[8], 
+    'a10': ansList[9]+" - "+ansWordList[9], 'a11': ansList[10]+" - "+ansWordList[10], 'a12': ansList[11]+" - "+ansWordList[11], 
+    'a13': ansList[12]+" - "+ansWordList[12], 'a14': ansList[13]+" - "+ansWordList[13], 'a15': ansList[14]+" - "+ansWordList[14], 
+    'a16': ansList[15]+" - "+ansWordList[15], 'a17': ansList[16]+" - "+ansWordList[16], 'a18': ansList[17]+" - "+ansWordList[17], 
+    'a19': ansList[18]+" - "+ansWordList[18], 'a20': ansList[19]+" - "+ansWordList[19]
 }
 infor.append(dic)
 
 shutil.copyfile(r"./test.hwp",r"./test_out.hwp")
-
+ 
 hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")
 
 hwpPath = os.path.abspath('./test_out.hwp')

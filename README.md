@@ -9,7 +9,7 @@ This is used to automate the process of tedious and time consuming task of test 
 Copy **test.hwp** file as a format and make a new hwp file called **test_out.hwp**
 Takes a 100 randomly selected non-repeating senteces from **source.xlsx** file and put those sentences into **test_out.hwp**. 
 Iteratively Underline corresponding keywords on **test_out.hwp**.
+Randomly assign answers and replaced words. i.e. make answer key on the back of the test paper.
 
 ### Next:
-1. Randomly assign answers and replaced words. i.e. make answer key on the back of the test paper.
-2. Create GUI for the program.
+1. Create GUI for the program.
