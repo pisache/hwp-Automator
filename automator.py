@@ -18,13 +18,13 @@ print("제작자: 이호준\n")
 print("환경 테스팅: 송서영\n")
 
 # user input
-#xlFile = input("엑셀파일명을 입력 해주세요: \n")
-#xlSheet = input("\n시트이름을 입력 해주세요: \n")
-#maxNum = int(input("\n최대 문장 수를 입력 해주세요: \n"))
+xlFile = input("엑셀파일명을 입력 해주세요: \n")
+xlSheet = input("\n시트이름을 입력 해주세요: \n")
+maxNum = int(input("\n총 예문 수를 입력 해주세요: \n"))
 
-xlFile = "source.xlsx"
-xlSheet = "sheet1"
-maxNum = 757
+#xlFile = "source.xlsx"
+#xlSheet = "sheet1"
+#maxNum = 757
 
 '''
     Select next word
