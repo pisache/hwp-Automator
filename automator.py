@@ -1,5 +1,6 @@
 import win32com.client as win32
 import pandas as pd
+import os
 import shutil
 import random
 import re
@@ -11,7 +12,6 @@ print("한글에서 한줄이 넘어가는 문장 사용시 그 다음 줄 단�
 print("\n")
 print("주의사항: \n")
 print("test.hwp파일을 수정하지 말아주세요.\n")
-print("해당 폴더를 C드라이브 이외에 장소에 보관 시 작동하지 않습니다.\n")
 print("\n")
 
 print("제작자: 이호준\n")
@@ -20,11 +20,11 @@ print("환경 테스팅: 송서영\n")
 # user input
 #xlFile = input("엑셀파일명을 입력 해주세요: \n")
 #xlSheet = input("\n시트이름을 입력 해주세요: \n")
-maxNum = int(input("\n최대 문장 수를 입력 해주세요: \n"))
+#maxNum = int(input("\n최대 문장 수를 입력 해주세요: \n"))
 
 xlFile = "source.xlsx"
 xlSheet = "sheet1"
-#maxNum = 757
+maxNum = 757
 
 '''
     Select next word
@@ -92,7 +92,9 @@ dic = {
     'q81': sentenceList[80], 'q82': sentenceList[81], 'q83': sentenceList[82], 'q84': sentenceList[83], 'q85': sentenceList[84],
     'q86': sentenceList[85], 'q87': sentenceList[86], 'q88': sentenceList[87], 'q89': sentenceList[88], 'q90': sentenceList[89],
     'q91': sentenceList[90], 'q92': sentenceList[91], 'q93': sentenceList[92], 'q94': sentenceList[93], 'q95': sentenceList[94],
-    'q96': sentenceList[95], 'q97': sentenceList[96], 'q98': sentenceList[97], 'q99': sentenceList[98], 'q100': sentenceList[99]
+    'q96': sentenceList[95], 'q97': sentenceList[96], 'q98': sentenceList[97], 'q99': sentenceList[98], 'q100': sentenceList[99],
+    'a1' : 1, 'a2' : 1, 'a3' : 1, 'a4' : 1, 'a5' : 1, 'a6' : 1, 'a7' : 1, 'a8' : 1, 'a9' : 1, 'a10' : 1, 
+    'a11' : 1, 'a12' : 1, 'a13' : 1, 'a14' : 1, 'a15' : 1, 'a16' : 1, 'a17' : 1, 'a18' : 1, 'a19' : 1, 'a20' : 1
 }
 infor.append(dic)
 
@@ -100,11 +102,15 @@ shutil.copyfile(r"./test.hwp",r"./test_out.hwp")
 
 hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")
 
-# Path for production
-hwp.Open(r"C:\dist\test_out.hwp")
+hwpPath = os.path.abspath('./test_out.hwp')
+hwp.Open(hwpPath)
 
-# Path for testing
+"""
+# Paths for testing
+#hwp.Open(r"C:\dist\test_out.hwp")
 #hwp.Open(r"D:\HoJun\dev\hwpAutomator\test_out.hwp")
+"""
+
 fieldList = [i for i in hwp.GetFieldList().split("\x02")] 
 
 for field in fieldList:
